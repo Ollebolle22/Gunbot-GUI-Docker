@@ -6,6 +6,7 @@ WORKDIR /opt
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends curl unzip ca-certificates && \
+    rm -rf /var/lib/apt/lists/* && \
     curl -L "$GUNTHY_URL" -o gui.zip && \
     unzip gui.zip && \
     rm gui.zip && \
@@ -18,7 +19,7 @@ FROM debian:bookworm-slim
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         libgtk-3-0 libnss3 libxss1 libatk1.0-0 \
-        libxkbcommon0 libdrm2 libasound2 xvfb \
+        libxkbcommon0 libdrm2 libasound2 xvfb xauth \
         libgbm1 libnotify4 && \
     rm -rf /var/lib/apt/lists/*
 
