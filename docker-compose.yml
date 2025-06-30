@@ -3,7 +3,7 @@ services:
     build: .
     container_name: gunthy-gui
     ports:
-      - "6000:6000"
+      - "5002:5002"
     volumes:
       - gunthy-data:/home/gunthy
     restart: unless-stopped
