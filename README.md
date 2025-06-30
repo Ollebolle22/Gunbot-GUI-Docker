@@ -18,8 +18,10 @@ to an alternative download link.
 Two further environment variables control the configuration written to
 `config.json` next to `gui-linux`:
 
-- `CONFIG_API_URL` sätter API-URL:en (standard `http://iptogb:port`)
-- `CONFIG_PORT` sätter portnumret (standard `5002`)
+- `CONFIG_API_URL` sets the API URL (defaults to `http://iptogb:port`)
+- `CONFIG_PORT` sets the port number (defaults to `5002`)
+
+The entrypoint script rewrites `config.json` at startup using these values.
 
 The container installs `xvfb` and `xauth` and runs the GUI via `xvfb-run` so it
 works even without a graphical interface.
@@ -35,6 +37,6 @@ docker compose logs -f gunthy
 
 ## Portainer
 
-Vid deployment via Portainer och valet **Repository** måste filen `stack.env`
-ligga i repots rot. Filen innehåller standardvariabler och kan redigeras
-direkt i Portainer eller med valfri texteditor innan deployment.
+When deploying via Portainer with the **Repository** option, the `stack.env` file
+must reside in the repository root. The file contains default variables and can
+be edited directly in Portainer or with any text editor before deployment.
