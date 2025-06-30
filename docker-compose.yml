@@ -7,9 +7,8 @@ services:
     volumes:
       - gunthy-data:/home/gunthy
     environment:
-      # Styr API-URL och port för config.json
-      #CONFIG_API_URL: http://iptogb:port
-      #CONFIG_PORT: 5002
+      CONFIG_API_URL: http://iptogb:port
+      CONFIG_PORT: 5002
     restart: unless-stopped
 
 volumes:
