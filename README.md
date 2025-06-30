@@ -32,3 +32,9 @@ is also printed to STDOUT. View it with:
 ```bash
 docker compose logs -f gunthy
 ```
+
+## Portainer
+
+Vid deployment via Portainer och valet **Repository** måste filen `stack.env`
+ligga i repots rot. Filen innehåller standardvariabler och kan redigeras
+direkt i Portainer eller med valfri texteditor innan deployment.
