@@ -15,5 +15,11 @@ The GUI will then be available at http://localhost:5002.
 The environment variable `GUNTHY_URL` can be set in `docker-compose.yml` to point
 to an alternative download link.
 
+Two further environment variables control the configuration written to
+`config.json` next to `gui-linux`:
+
+- `CONFIG_API_URL` sätter API-URL:en (standard `http://iptogb:port`)
+- `CONFIG_PORT` sätter portnumret (standard `5002`)
+
 The container installs `xvfb` and `xauth` and runs the GUI via `xvfb-run` so it
 works even without a graphical interface.
