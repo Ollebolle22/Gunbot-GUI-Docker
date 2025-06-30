@@ -1,42 +1,81 @@
 # Gunbot GUI Docker
 
-This repository builds a Docker container that downloads and runs the Gunbot GUI.
-Port 5002 is exposed and a volume `gunthy-data` is used to persist data.
+This repository contains everything you need to build and run the Gunbot GUI in a standalone Docker container. 
+It downloads the GUI binary, installs minimal dependencies, and serves it on port 5002.
 
-## Build and run
+## 🔽 What gets downloaded?
+- **GUI binary** from the URL defined by the build-arg `GUNTHY_URL`  
+Default:  https://gunthy.org/downloads/beta/gui-linux.zip
+(Override by passing a different URL to Docker Compose or in your `.env`.)
 
-```bash
-docker-compose build
-docker-compose up -d
-```
+## 🧰 What gets installed?
 
-The GUI will then be available at http://localhost:5002.
+1. **Builder stage** (`debian:bookworm-slim`):  
+ - `curl`, `unzip`, `ca-certificates`  
+ - Downloads & unzips the GUI into `/opt`, makes `gui-linux` executable
 
-The environment variable `GUNTHY_URL` can be set in `docker-compose.yml` to point
-to an alternative download link.
+2. **Final image** (`debian:bookworm-slim`):  
+ - Electron runtime deps:  
+   ```
+   libgtk-3-0, libnss3, libxss1, libatk1.0-0,
+   libxkbcommon0, libdrm2, libasound2,
+   libgbm1, libnotify4
+   ```
+ - Sets `APP_HOME=/opt/gunthy`  
+ - Copies the `gui-linux` binary and `entrypoint.sh`  
+ - Creates a non-root user `gunthy` and chowns `$APP_HOME`  
+ - Exposes port **5002**
 
-Two further environment variables control the configuration written to
-`config.json` next to `gui-linux`:
+## 🚀 How to deploy
 
-- `CONFIG_API_URL` sets the API URL (defaults to `http://iptogb:port`)
-- `CONFIG_PORT` sets the port number (defaults to `5002`)
+### Option A – Docker Compose
 
-The entrypoint script rewrites `config.json` at startup using these values.
+1. Clone & enter repo:
+git clone https://github.com/Ollebolle22/Gunbot-GUI-Docker.git
+cd Gunbot-GUI-Docker
+./gunthy-gui
 
-The container runs the GUI directly in headless mode, so no virtual display is
-required.
+2. (Optional) Create a .env alongside docker-compose.yml:
 
-## Logs
+GUNTHY_URL=https://gunthy.org/downloads/beta/gui-linux.zip
+CONFIG_API_URL=http://YOUR_GUNBOT_HOST:5000
+CONFIG_PORT=5002
 
-All GUI output is saved to `gui.log` under `/opt/gunthy` inside the container and
-is also printed to STDOUT. View it with:
+3. Build & start:
+docker-compose up -d --build
 
-```bash
-docker compose logs -f gunthy
-```
+Option B – Portainer
+In Portainer, Add stack → Git repository → paste this repo URL.
 
-## Portainer
+Under Environment variables, set:
 
-When deploying via Portainer with the **Repository** option, the `stack.env` file
-must reside in the repository root. The file contains default variables and can
-be edited directly in Portainer or with any text editor before deployment.
+* GUNTHY_URL
+
+* CONFIG_API_URL
+
+* CONFIG_PORT
+
+Deploy.
+
+
+⚙️ Configuration
+Variable	Description	Default
+GUNTHY_URL	URL to the GUI ZIP archive	https://gunthy.org/downloads/beta/gui-linux.zip
+CONFIG_API_URL	URL of your Gunbot core API (must be running elsewhere)	http://iptogb:port
+CONFIG_PORT	Port that this GUI listens on	5002
+
+
+
+📄 Entrypoint
+The entrypoint.sh script does the following:
+
+Generates a JSON config at $APP_HOME/config.json:
+{
+  "apiUrl": "<CONFIG_API_URL>",
+  "port": <CONFIG_PORT>
+}
+Appends all output to $APP_HOME/gui.log.
+
+Executes the GUI binary:
+
+exec $APP_HOME/gui-linux "$@"
