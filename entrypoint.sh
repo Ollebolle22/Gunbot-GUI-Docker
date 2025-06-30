@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -e
+set -o pipefail
 
 # Skapa konfigurationsfil bredvid gui-linux
 CONFIG_FILE="$APP_HOME/config.json"
@@ -14,4 +15,5 @@ cat > "$CONFIG_FILE" <<EOF
 EOF
 
 # Kör GUI:t i ett huvudlöst X-fönster
-exec xvfb-run --auto-servernum --server-num=1 "$APP_HOME/gui-linux" "$@" 2>&1 | tee -a "$APP_HOME/gui.log"
+exec > >(tee -a "$APP_HOME/gui.log") 2>&1
+exec xvfb-run --auto-servernum --server-num=1 "$APP_HOME/gui-linux" "$@"
