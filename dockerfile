@@ -31,6 +31,6 @@ RUN useradd -ms /bin/bash gunthy && \
 USER gunthy
 
 WORKDIR $APP_HOME
-EXPOSE 5002            # Gunthy-GUI:s webserver
+EXPOSE 5002
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
