@@ -1,0 +1,11 @@
+version: "3.8"
+
+services:
+  gunthy:
+    build: .
+    container_name: gunthy-gui
+    ports:
+      - "5000:5000"        # http://localhost:5000 i din webbläsare
+    volumes:
+      - ./data:/home/gunthy      # config.json, license.js m.m.
+    restart: unless-stopped
