@@ -2,7 +2,7 @@
 set -e
 set -o pipefail
 
-# Skapa konfigurationsfil bredvid gui-linux
+# Create configuration file next to gui-linux
 CONFIG_FILE="$APP_HOME/config.json"
 API_URL="${CONFIG_API_URL:-http://iptogb:port}"
 GUI_PORT="${CONFIG_PORT:-5002}"
@@ -14,6 +14,6 @@ cat > "$CONFIG_FILE" <<EOF
 }
 EOF
 
-# Kör GUI:t i ett huvudlöst X-fönster
+# Run the GUI in a headless X window
 exec > >(tee -a "$APP_HOME/gui.log") 2>&1
 exec xvfb-run --auto-servernum --server-num=1 "$APP_HOME/gui-linux" "$@"
