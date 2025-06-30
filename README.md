@@ -1,19 +1,19 @@
 # Gunbot GUI Docker
 
-Detta repo bygger en Dockercontainer som laddar ner och kör Gunbot GUI.
-Port 5002 exponeras och en volym `gunthy-data` används för att spara data.
+This repository builds a Docker container that downloads and runs the Gunbot GUI.
+Port 5002 is exposed and a volume `gunthy-data` is used to persist data.
 
-## Bygg och kör
+## Build and run
 
 ```bash
 docker-compose build
 docker-compose up -d
 ```
 
-GUI:t nås sedan på http://localhost:5002.
+The GUI will then be available at http://localhost:5002.
 
-Miljövariabeln `GUNTHY_URL` kan sättas i `docker-compose.yml` för att peka
-på en alternativ nedladdningslänk.
+The environment variable `GUNTHY_URL` can be set in `docker-compose.yml` to point
+to an alternative download link.
 
-Containern installerar `xvfb` och `xauth` och kör GUI:t via `xvfb-run` så det
-fungerar även utan grafiskt gränssnitt.
+The container installs `xvfb` and `xauth` and runs the GUI via `xvfb-run` so it
+works even without a graphical interface.
