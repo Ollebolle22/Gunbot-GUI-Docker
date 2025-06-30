@@ -1,11 +1,17 @@
 services:
   gunthy:
-    build: .
+    build:
+      context: .
+      args:
+        GUNTHY_URL: ${GUNTHY_URL}
     container_name: gunthy-gui
     ports:
       - "5002:5002"
     volumes:
       - gunthy-data:/home/gunthy
+    environment:
+      API_URL: http://iptogb:port
+      GUI_PORT: 5002
     restart: unless-stopped
 
 volumes:
