@@ -23,8 +23,8 @@ Two further environment variables control the configuration written to
 
 The entrypoint script rewrites `config.json` at startup using these values.
 
-The container installs `xvfb` and `xauth` and runs the GUI via `xvfb-run` so it
-works even without a graphical interface.
+The container runs the GUI directly in headless mode, so no virtual display is
+required.
 
 ## Logs
 

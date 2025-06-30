@@ -14,6 +14,6 @@ cat > "$CONFIG_FILE" <<EOF
 }
 EOF
 
-# Run the GUI in a headless X window
+# Run the GUI directly in headless mode
 exec > >(tee -a "$APP_HOME/gui.log") 2>&1
-exec xvfb-run --auto-servernum --server-num=1 "$APP_HOME/gui-linux" "$@"
+exec "$APP_HOME/gui-linux" "$@"
