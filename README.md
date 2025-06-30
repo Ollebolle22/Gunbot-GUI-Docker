@@ -23,3 +23,12 @@ Two further environment variables control the configuration written to
 
 The container installs `xvfb` and `xauth` and runs the GUI via `xvfb-run` so it
 works even without a graphical interface.
+
+## Logs
+
+All GUI output is saved to `gui.log` under `/opt/gunthy` inside the container and
+is also printed to STDOUT. View it with:
+
+```bash
+docker compose logs -f gunthy
+```
