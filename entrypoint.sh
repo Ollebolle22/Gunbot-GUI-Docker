@@ -14,4 +14,4 @@ cat > "$CONFIG_FILE" <<EOF
 EOF
 
 # Kör GUI:t i ett huvudlöst X-fönster
-exec xvfb-run --auto-servernum --server-num=1 "$APP_HOME/gui-linux" "$@"
+exec xvfb-run --auto-servernum --server-num=1 "$APP_HOME/gui-linux" "$@" 2>&1 | tee -a "$APP_HOME/gui.log"
